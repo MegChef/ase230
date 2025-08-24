@@ -140,10 +140,10 @@ if ($_POST) {
         Username: testuser, Email: test@example.com, Password: MyPass123<br><br>
         
         <strong>Test Validations:</strong><br>
-        • Try duplicate username (should fail)<br>
-        • Try weak password like "123" (should fail)<br>
-        • Try non-matching password confirmation (should fail)<br>
-        • Try invalid email format (should fail)
+       - Try duplicate username (should fail)<br>
+       - Try weak password like "123" (should fail)<br>
+       - Try non-matching password confirmation (should fail)<br>
+       - Try invalid email format (should fail)
     </div>
 </body>
 </html>

@@ -232,11 +232,11 @@ $auth->deactivate_user($user_id);</pre>
     <h3>🧪 Test User Management:</h3>
     <div style="background: #fffacd; padding: 15px; margin: 10px 0;">
         <strong>Try these actions:</strong><br>
-        • Deactivate a user (should work if not yourself)<br>
-        • Try to deactivate yourself (should fail with error)<br>
-        • Activate a deactivated user (should work)<br>
-        • Register new users and see statistics update<br>
-        • Notice how deactivated users cannot log in
+       - Deactivate a user (should work if not yourself)<br>
+       - Try to deactivate yourself (should fail with error)<br>
+       - Activate a deactivated user (should work)<br>
+       - Register new users and see statistics update<br>
+       - Notice how deactivated users cannot log in
     </div>
     
     <h3>📚 Educational Notes:</h3>

@@ -219,13 +219,13 @@ echo "✅ Reset functionality working\n";
 echo "✅ User state management working\n\n";
 
 echo "🎯 What Students Will Learn:\n";
-echo "  • TOTP algorithm implementation\n";
-echo "  • Time-based cryptography\n";
-echo "  • User account state management\n";
-echo "  • API endpoint design\n";
-echo "  • Error handling and recovery\n";
-echo "  • Service dependency management\n";
-echo "  • Security best practices\n\n";
+echo " - TOTP algorithm implementation\n";
+echo " - Time-based cryptography\n";
+echo " - User account state management\n";
+echo " - API endpoint design\n";
+echo " - Error handling and recovery\n";
+echo " - Service dependency management\n";
+echo " - Security best practices\n\n";
 
 echo "🚀 Next Steps for Testing:\n";
 echo "  1. Start PHP server: php -S localhost:8000\n";

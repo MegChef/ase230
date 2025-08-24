@@ -176,10 +176,10 @@ $safe_updates['updated_at'] = date('c');</pre>
     <h3>🧪 Test Profile Updates:</h3>
     <div style="background: #fffacd; padding: 15px; margin: 10px 0;">
         <strong>Try these test cases:</strong><br>
-        • Valid email update (should succeed)<br>
-        • Invalid email format like "not-an-email" (should fail)<br>
-        • Email already used by another user (should fail)<br>
-        • Empty email field (should fail)
+       - Valid email update (should succeed)<br>
+       - Invalid email format like "not-an-email" (should fail)<br>
+       - Email already used by another user (should fail)<br>
+       - Empty email field (should fail)
     </div>
 </body>
 </html>

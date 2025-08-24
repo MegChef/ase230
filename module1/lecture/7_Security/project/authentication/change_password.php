@@ -157,11 +157,11 @@ $db->update($user_id, ['password_hash' => $new_hash]);</pre>
     <h3>🧪 Test Password Validation:</h3>
     <div style="background: #fffacd; padding: 15px; margin: 10px 0;">
         <strong>Try these scenarios:</strong><br>
-        • Wrong current password (should fail)<br>
-        • Weak new password like "123" (should fail)<br>
-        • Non-matching confirmation (should fail)<br>
-        • Same as current password (should fail)<br>
-        • Strong new password like "NewPass123" (should succeed)
+       - Wrong current password (should fail)<br>
+       - Weak new password like "123" (should fail)<br>
+       - Non-matching confirmation (should fail)<br>
+       - Same as current password (should fail)<br>
+       - Strong new password like "NewPass123" (should succeed)
     </div>
 </body>
 </html>
