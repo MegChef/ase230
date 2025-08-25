@@ -4,7 +4,7 @@ $users = [
     'john' => [
         'id' => 1,
         'username' => 'john',
-        'password' => 'password1234',
+        'password' => 'password123',
         'totp_secret' => null,  // Will be set when 2FA is enabled
         'totp_enabled' => false
     ],

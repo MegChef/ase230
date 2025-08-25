@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../SimpleTOTP.php';
-require_once __DIR__ . '../config.php';
+require_once __DIR__ . '/../config.php';
 
 /**
  * COMPLETE 2FA DEMO SCRIPT
