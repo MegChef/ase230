@@ -1,71 +1,96 @@
 <?php
-/**
- * Simple PHP API for Students Management
- * Educational project focusing on basic PHP and API concepts
- * 
- * This API provides simple GET endpoints for managing student data.
- * Perfect for learning PHP basics without complex features.
- */
-
-// Enable error reporting for development (helps students debug)
+// --- Development toggles (on for class demos; off in production)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Set content type to JSON for all responses
-header('Content-Type: application/json');
-
-/**
- * Simple function to send successful JSON response
- * 
- * @param mixed $data Data to include in response
- * @param string $message Success message
- */
-function sendResponse($data, $message = 'Success') {
-    echo json_encode([
-        'success' => true,
-        'message' => $message,
-        'data' => $data,
-        'count' => is_array($data) ? count($data) : 1
-    ], JSON_PRETTY_PRINT);
-}
-
-/**
- * Simple function to send error response
- * 
- * @param string $message Error message
- * @param int $code HTTP status code
- */
-function sendError($message, $code = 400) {
+/** Core JSON responder (status + header + body, then exit) */
+function sendJson(array $payload, int $code = 200): void {
     http_response_code($code);
-    echo json_encode([
-        'success' => false,
-        'message' => $message,
-        'data' => null
-    ], JSON_PRETTY_PRINT);
-}
-
-$method = $_SERVER['REQUEST_METHOD'];
-
-// Only allow GET requests for this simple educational API
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    sendError('Only POST requests are allowed in this simple API', 405);
+    header('Content-Type: application/json');
+    echo json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     exit;
 }
 
-switch ($method) {
-    case 'POST':
-        // Handle POST parameters
-        $name = $_POST['name'] ?? '';
+function sendResponse($data, string $message = 'Success', int $code = 200): void {
+    $count = is_countable($data) ? count($data) : 1;
+    sendJson([
+        'success' => true,
+        'message' => $message,
+        'data'    => $data,
+        'count'   => $count,
+    ], $code);
+}
+
+function sendError(string $message, int $code = 400, array $extra = []): void {
+    sendJson([
+        'success' => false,
+        'message' => $message,
+        'data'    => null,
+        ...$extra,
+    ], $code);
+}
+
+/** Method guard: POST only */
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+if ($method !== 'POST') {
+    header('Allow: POST');
+    sendError('Only POST requests are allowed in this simple API', 405);
+}
+
+/** Content negotiation & body parsing */
+$contentType = $_SERVER['CONTENT_TYPE'] ?? $_SERVER['HTTP_CONTENT_TYPE'] ?? '';
+if (strpos($contentType, ';') !== false) {
+    $contentType = strtolower(trim(strtok($contentType, ';'))); // strip boundary/charset
+} else {
+    $contentType = strtolower(trim($contentType));
+}
+
+$name = '';
+$email = '';
+
+switch ($contentType) {
+    case 'application/json': {
+        $raw = file_get_contents('php://input');
+        $data = json_decode($raw, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            sendError('Invalid JSON body', 400, ['json_error' => json_last_error_msg()]);
+        }
+        $name  = $data['name']  ?? '';
+        $email = $data['email'] ?? '';
+        break;
+    }
+
+    // Treat classic HTML form posts (and file forms) the same
+    case 'application/x-www-form-urlencoded':
+    case 'multipart/form-data':
+    case '': // some clients omit Content-Type; try $_POST
+        $name  = $_POST['name']  ?? '';
         $email = $_POST['email'] ?? '';
-        $info = [
-            'name' => $name,
-            'email' => $email
-        ];
-        sendResponse($info, 'Response from POST request');
         break;
 
     default:
-        sendError('Method Not Supported', 404);
-        break;
+        sendError('Unsupported Content-Type: ' . $contentType, 415, [
+            'supported' => [
+                'application/json',
+                'application/x-www-form-urlencoded',
+                'multipart/form-data'
+            ]
+        ]);
 }
+
+/** Minimal validation (for the demo) */
+if ($name === '' || $email === '') {
+    sendError('Both "name" and "email" are required.', 422, [
+        'received' => ['name' => $name, 'email' => $email]
+    ]);
+}
+
+/** Build response payload */
+$info = [
+    'name'  => $name,
+    'email' => $email,
+    // In a real app, you might also inspect $_FILES for uploads.
+];
+
+sendResponse($info, 'Response from POST request');
 ?>

@@ -21,7 +21,7 @@ session_start();
 <p><a href="check.php">4. Check Session Data</a></p>
 <p><a href="logout.php">5. Logout</a></p>
 
-<?php if ($_SESSION['logged_in']): ?>
+<?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
     <h3>Current Status: Logged in as <?= $_SESSION['username'] ?> (ID: <?= $_SESSION['user_id'] ?>)</h3>
 <?php else: ?>
     <h3>Current Status: Not logged in</h3>
