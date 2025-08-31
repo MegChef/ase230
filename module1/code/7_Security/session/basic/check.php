@@ -9,7 +9,7 @@ session_start();
 <p><strong>What's in $_SESSION:</strong></p>
 <pre><?php print_r($_SESSION); ?></pre>
 
-<?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+<?php if ($_SESSION['logged_in']): ?>
     <p>Status: Logged in as <?= $_SESSION['username'] ?></p>
     <p><a href="welcome.php">Welcome Page</a></p>
     <p><a href="logout.php">Logout</a></p>
